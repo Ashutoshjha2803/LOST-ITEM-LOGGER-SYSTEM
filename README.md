@@ -1,62 +1,72 @@
 # LOST-ITEM-LOGGER-SYSTEM
 import json
 
-FILE "lost_items.json"
+FILE = "lost_items.json"
 
-#Load data def load items(): try: with open(FILLE, "r") as f: return json.load(1) except: return
+# Load data
+def load_items():
+    try:
+        with open(FILE, "r") as f:
+            return json.load(f)
+    except:
+        return []
 
-#Save data
+# Save data
+def save_items(items):
+    with open(FILE, "w") as f:
+        json.dump(items, f, indent=4)
 
-def save items(items): with open(FILE, "w") as f: json.dump(items, f
+# Backup
+def backup():
+    with open("backup.json", "w") as f:
+        json.dump(load_items(), f, indent=4)
 
-#Backup
+# Main Program
+lost_items = load_items()
 
-def backup): with open("hackup.json", "w") as f: json.dump(load_items(), f)
+while True:
+    print("\n1. Report Lost Item")
+    print("2. View Lost Items")
+    print("3. Exit")
 
-#Main Program
+    try:
+        choice = int(input("Enter your choice: "))
+    except ValueError:
+        print("\nInvalid input. Please enter a number.")
+        continue
 
-lost items
+    if choice == 1:
+        item = {
+            "item_name": input("Enter Item Name: "),
+            "color": input("Enter Item Color: "),
+            "location": input("Enter Place Lost: "),
+            "date": input("Enter Date (DD-MM-YYYY): "),
+            "contact": input("Enter Student Name: ")
+        }
 
-load items()
+        lost_items.append(item)
+        save_items(lost_items)
 
-while True: print("\n1. Report Lost Item") print("2. View Lost Items") print("3. Exit")
+        print("\nLost item has been successfully recorded.")
+        print("Thank you for helping maintain campus records.")
 
-choice = int(input("Enter your choice:
+    elif choice == 2:
+        if len(lost_items) == 0:
+            print("\nNo lost items reported yet.")
+        else:
+            print("\n--- Lost Item Details ---\n")
+            for item in lost_items:
+                print("Item Name:", item["item_name"])
+                print("Color:", item["color"])
+                print("Lost At:", item["location"])
+                print("Date:", item["date"])
+                print("Reported By:", item["contact"])
+                print("\n")
 
-if choice 1:
+    elif choice == 3:
+        backup()
+        print("\nThank you for using the system.")
+        break
 
-item= "item name"; input("Enter Item Name: "), "color": input("Enter Item Color: ")
-
-"location": input("Enter Place Lost: "), "date": input("Enter Date (DD-MM-YYYY): "),
-
-"contact": input("Enter Student Name: ")
-
-1
-
-lost items.append(item) save items(lost_items)
-
-print("inLost item has been successfully recorded.") print("Thank you for helping maintain campus records.")
-
-elif choice == 2:
-
-if len(lost items) == 0: print("\nNo lost items reported yet.") else:
-
-print("\n-Lost Item Details \n")
-
-for item in lost items:
-
-print("Item Name:", item["item_name"]) print("Color:", item["color"])
-
-print("Lost At;", item["location"]) print("Date :", item["date"])
-
-print("Reported By:", item["contact"])
-
-print("\n")
-
-elif choice3:
-
-hackup()
-
-print("\nThank you for using the system.") break
-
-else: print("\nInvalid choice. Please try again.")
+    else:
+        print("\nInvalid choice. Please try again.")
